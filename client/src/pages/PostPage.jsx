@@ -9,7 +9,7 @@ export default function PostPage() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:4000/post/${id}`)
+    fetch(`api/post/${id}`)
       .then(response => {
         if (response.ok) {
           return response.json();

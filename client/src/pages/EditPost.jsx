@@ -41,7 +41,7 @@ export default function EditPost() {
     }
 
     try {
-      const response = await fetch('http://localhost:4000/post', {
+      const response = await fetch('api/post', {
         method: 'PUT',
         body: data,
         credentials: 'include',
