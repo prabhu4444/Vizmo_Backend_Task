@@ -2,7 +2,7 @@
 This project implements REST API endpoints to handle blog post CRUD operations using the MERN stack. The frontend is built with Vite and TailwindCSS, while the backend is implemented with MongoDB, Node.js, and Express. Authentication for user login and signup is also included.
 
 ## Note :
-Time taken to complete the task : 24hrs (from first commmit to the final demo video)
+Time taken to complete the task : 24hrs (from first commmit to the final demo video commit)
 
 ## Demo
 A demo video of the project can be found here...
