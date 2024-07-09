@@ -28,7 +28,7 @@ export default function Header() {
   return (
     <header className="flex justify-between items-center py-4 px-6 bg-gray-800 text-white">
       <Link to="/" className="text-2xl font-bold tracking-wider">
-        MyBlog
+        Vizmo Backend Task
       </Link>
       <nav>
         {username ? (

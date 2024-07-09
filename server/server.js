@@ -41,7 +41,6 @@ app.post('/api/login', async (req,res) => {
   const userDoc = await User.findOne({username});
   const passOk = bcrypt.compareSync(password, userDoc.password);
   if (passOk) {
-    // logged in
     jwt.sign({username,id:userDoc._id}, secret, {}, (err,token) => {
       if (err) throw err;
       res.cookie('token', token).json({
@@ -109,16 +108,15 @@ app.put('/api/post', uploadMiddleware.single('file'), async (req, res) => {
       const { id, title, summary, content } = req.body;
   
       try {
-        // Use findByIdAndUpdate to update the post by its id
         const updatedPost = await Post.findByIdAndUpdate(
           id,
           {
             title,
             summary,
             content,
-            image: newPath || req.body.image, // Use newPath if it exists, otherwise use existing image path
+            image: newPath || req.body.image, 
           },
-          { new: true } // Return the updated document
+          { new: true } 
         );
   
         if (!updatedPost) {
@@ -148,16 +146,14 @@ app.get('/api/search', async (req, res) => {
     let filter = {};
   
     if (query) {
-      const searchRegex = new RegExp(query, 'i'); // 'i' for case-insensitive
+      const searchRegex = new RegExp(query, 'i'); 
       filter.$or = [
         { title: searchRegex },
-        // Will handle the author filtering below
       ];
     }
   
     try {
       if (query) {
-        // Find the user by username
         const user = await User.findOne({ username: query });
         if (user) {
           filter.$or.push({ author: user._id });
@@ -189,7 +185,6 @@ app.delete('/api/post/:id', async (req, res) => {
         return res.status(404).json({ error: "Post not found" });
       }
   
-      // Optionally, delete the associated image file from the filesystem
       const imagePath = `${__dirname}/${deletedPost.image}`;
       fs.unlinkSync(imagePath);
   
