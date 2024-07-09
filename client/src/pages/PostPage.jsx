@@ -9,7 +9,7 @@ export default function PostPage() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`api/post/${id}`)
+    fetch(`/api/post/${id}`)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -59,7 +59,7 @@ export default function PostPage() {
       )}
 
       <div className="mb-4">
-        <img src={`http://localhost:4000/${postInfo.cover}`} alt="" className="w-full" />
+        <img src={`/api/${postInfo.cover}`} alt="" className="w-full" />
       </div>
 
       <div

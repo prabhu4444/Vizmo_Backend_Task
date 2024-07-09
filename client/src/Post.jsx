@@ -6,7 +6,7 @@ export default function Post({_id, title, summary, cover, content, createdAt, au
     <div className="post grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
       <div className="image">
         <Link to={`/post/${_id}`}>
-          <img src={`api/${cover}`} alt={title} className="w-full h-auto" />
+          <img src={`/api/${cover}`} alt={title} className="w-full h-auto" />
         </Link>
       </div>
       <div className="texts">

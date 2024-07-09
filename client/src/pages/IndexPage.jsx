@@ -5,7 +5,7 @@ export default function IndexPage() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch('api/post')
+    fetch('/api/post')
       .then(response => {
         if (response.ok) {
           return response.json();

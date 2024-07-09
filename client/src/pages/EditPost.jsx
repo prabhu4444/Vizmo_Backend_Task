@@ -11,7 +11,7 @@ export default function EditPost() {
   const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:4000/post/${id}`)
+    fetch(`/api/post/${id}`)
       .then(response => {
         if (response.ok) {
           return response.json();
@@ -41,7 +41,7 @@ export default function EditPost() {
     }
 
     try {
-      const response = await fetch('api/post', {
+      const response = await fetch('/api/post', {
         method: 'PUT',
         body: data,
         credentials: 'include',
@@ -58,7 +58,7 @@ export default function EditPost() {
   }
 
   if (redirect) {
-    return <Navigate to={`/post/${id}`} />;
+    return <Navigate to={`/api/post/${id}`} />;
   }
 
   return (
