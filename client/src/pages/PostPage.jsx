@@ -17,6 +17,7 @@ export default function PostPage() {
         throw new Error("Failed to fetch post.");
       })
       .then(postInfo => {
+        console.log(postInfo);
         setPostInfo(postInfo);
       })
       .catch(error => {
@@ -27,18 +28,23 @@ export default function PostPage() {
   if (!postInfo) return null; // Return early if postInfo is null or undefined
 
   return (
-    <div className="max-w-3xl mx-auto mt-10">
-      <h1 className="text-3xl font-bold mb-4">{postInfo.title}</h1>
-      <time className="text-sm text-gray-500 mb-2">
-        {format(new Date(postInfo.createdAt), "dd MMM yyyy")}
+    <div className="max-w-4xl bg-red-100 mx-auto h-screen mt-10">
+      
+      <h1 className="text-3xl flex justify-center items-center font-bold p-6">Title : {postInfo.title}</h1>
+     <div className="flex flex-row items-center mb-4 justify-around">
+     <div className="text-base text-gray-600">Auther : {postInfo.author.username}</div>
+      <time className="text-base text-gray-500">
+      Date of Creation :  
+        { format(new Date(postInfo.createdAt), " dd MMM yyyy")}
       </time>
-      <div className="text-sm text-gray-600 mb-4">by @{postInfo.author.username}</div>
+     </div>
+      
 
       {userInfo.id === postInfo.author._id && (
-        <div className="mb-4">
+        <div className="mb-4 flex justify-end">
           <Link
             to={`/edit/${postInfo._id}`}
-            className="inline-flex items-center px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none"
+            className="inline-flex items-center mx-6 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md focus:outline-none"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,12 +64,12 @@ export default function PostPage() {
         </div>
       )}
 
-      <div className="mb-4">
-        <img src={`/api/${postInfo.cover}`} alt="" className="w-full" />
+      <div className=" flex justify-center m-4">
+        <img src={`http://localhost:4000/${postInfo.image}`} alt="" className="max-w-80 max-h-80" />
       </div>
 
       <div
-        className="prose"
+        className="p-8 border border-red-200 m-4 prose"
         dangerouslySetInnerHTML={{ __html: postInfo.content }} // Using prose for rich text content
       />
     </div>

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { UserContext } from "../UserContext";
+import toast from "react-hot-toast"; 
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -24,11 +25,12 @@ export default function LoginPage() {
         setUserInfo(userInfo);
         setRedirect(true);
       } else {
-        alert('Wrong credentials');
+        toast.error("Wrong credentials");
       }
     } catch (error) {
       console.error('Error logging in:', error);
-      alert('An error occurred while logging in.');
+      toast.error("An error occurred while logging in");
+      
     }
   }
 
@@ -37,8 +39,8 @@ export default function LoginPage() {
   }
 
   return (
-    <form className="max-w-sm mx-auto mt-10 p-6 bg-white shadow-md rounded-lg" onSubmit={login}>
-      <h1 className="text-2xl font-bold mb-6 text-center">Login</h1>
+    <form className="max-w-sm mx-auto mt-10 p-6 bg-red-100 shadow-xl rounded-lg" onSubmit={login}>
+      <h1 className="text-2xl font-bold mb-6 text-blue-500 text-center">Login</h1>
       <input
         type="text"
         placeholder="Username"

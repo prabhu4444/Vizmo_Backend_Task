@@ -36,7 +36,7 @@ export default function CreatePost() {
   }
 
   return (
-    <form onSubmit={createNewPost} className="max-w-2xl mx-auto mt-10">
+    <form onSubmit={createNewPost} className="max-w-4xl rounded-lg bg-red-100 p-4 mx-auto mt-10">
       <input
         type="text"
         className="w-full border border-gray-300 rounded-md py-2 px-3 mb-3 focus:outline-none focus:border-blue-500"
@@ -56,11 +56,13 @@ export default function CreatePost() {
         onChange={(ev) => setFiles(ev.target.files)}
         className="mb-3"
       />
+      <div className="p-4 bg-red-300 rounded-lg h-96 mb-4">
       <Editor value={content} onChange={setContent} />
+      </div>
 
       <button
         type="submit"
-        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-3"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-"
       >
         Create Post
       </button>

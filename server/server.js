@@ -18,7 +18,7 @@ const secret = 'asdfe45we45w345wegw345werjktjwertkj';
 app.use(cors({credentials:true,origin:'http://localhost:5173'}));
 app.use(express.json());
 app.use(cookieParser());
-app.use('/api/uploads', express.static(__dirname + '/uploads'));
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 mongoose.connect(process.env.MONGODB_URI)
 
@@ -81,7 +81,7 @@ app.post('/api/post', uploadMiddleware.single('file'), async (req,res) => {
       title,
       summary,
       content,
-      cover:newPath,
+      image:newPath,
       author:info.id,
     });
     res.json(postDoc);
@@ -109,7 +109,7 @@ app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
         title,
         summary,
         content,
-        cover: newPath ? newPath : postDoc.cover,
+        image: newPath ? newPath : postDoc.image,
       }, { new: true }); // { new: true } ensures the updated document is returned
   
       if (!updatedPost) {

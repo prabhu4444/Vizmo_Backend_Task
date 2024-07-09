@@ -18,14 +18,14 @@ export default function Editor({ value, onChange }) {
   };
 
   return (
-    <div >
+    <div className="h-full border border-gray-300 rounded-md overflow-hidden">
       <ReactQuill
         value={value}
         theme="snow"
         onChange={onChange}
         modules={modules}
-        className="bg-white shadow-md rounded px-4 py-2 mt-2 mb-4"
-        style={{ minHeight: "300px" }} // Set a minimum height for the editor
+        className="bg-white px-4 py-2 h-full"
+        style={{ height: "100%" }}
       />
     </div>
   );

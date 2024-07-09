@@ -1,4 +1,6 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
+
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -13,16 +15,16 @@ export default function RegisterPage() {
     });
 
     if (response.status === 200) {
-      alert("Registration successful");
+      toast.success("Registration successful")
     } else {
-      alert("Registration failed");
+      toast.error("Registration failed")
     }
   }
 
   return (
     <div className="max-w-md mx-auto mt-10 px-4">
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={register}>
-        <h1 className="text-2xl font-bold mb-4 text-center">Register</h1>
+      <form className="bg-red-100 shadow-xl rounded px-8 pt-6 pb-8 mb-4" onSubmit={register}>
+        <h1 className="text-2xl font-bold mb-4 text-center text-blue-500">Create a new account</h1>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">
             Username
