@@ -89,7 +89,7 @@ app.post('/api/post', uploadMiddleware.single('file'), async (req,res) => {
 
 });
 
-app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
+app.put('/api/post', uploadMiddleware.single('file'), async (req, res) => {
     let newPath = null;
     if (req.file) {
       const { originalname, path } = req.file;
@@ -101,24 +101,38 @@ app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
   
     const { token } = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
-      if (err) throw err;
-      const { id, title, summary, content } = req.body;
-      
-      // Use findByIdAndUpdate instead of findById and update method
-      const updatedPost = await Post.findByIdAndUpdate(id, {
-        title,
-        summary,
-        content,
-        image: newPath ? newPath : postDoc.image,
-      }, { new: true }); // { new: true } ensures the updated document is returned
-  
-      if (!updatedPost) {
-        return res.status(404).json('Post not found');
+      if (err) {
+        console.error('JWT verification error:', err);
+        return res.status(401).json({ error: 'Unauthorized' });
       }
   
-      res.json(updatedPost);
+      const { id, title, summary, content } = req.body;
+  
+      try {
+        // Use findByIdAndUpdate to update the post by its id
+        const updatedPost = await Post.findByIdAndUpdate(
+          id,
+          {
+            title,
+            summary,
+            content,
+            image: newPath || req.body.image, // Use newPath if it exists, otherwise use existing image path
+          },
+          { new: true } // Return the updated document
+        );
+  
+        if (!updatedPost) {
+          return res.status(404).json({ error: 'Post not found' });
+        }
+  
+        res.json(updatedPost);
+      } catch (error) {
+        console.error('Error updating post:', error);
+        res.status(500).json({ error: 'Internal server error' });
+      }
     });
   });
+  
   
 
 app.get('/api/post', async (req,res) => {
@@ -135,6 +149,7 @@ app.get('/api/post/:id', async (req, res) => {
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
 })
+
 
 app.listen(4000, () => {
     console.log('Server is running on http://localhost:4000');
