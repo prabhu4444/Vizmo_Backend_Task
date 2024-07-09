@@ -143,12 +143,42 @@ app.get('/api/post', async (req,res) => {
       .limit(20)
   );
 });
-
+app.get('/api/search', async (req, res) => {
+    const { query } = req.query;
+    let filter = {};
+  
+    if (query) {
+      const searchRegex = new RegExp(query, 'i'); // 'i' for case-insensitive
+      filter.$or = [
+        { title: searchRegex },
+        // Will handle the author filtering below
+      ];
+    }
+  
+    try {
+      if (query) {
+        // Find the user by username
+        const user = await User.findOne({ username: query });
+        if (user) {
+          filter.$or.push({ author: user._id });
+        }
+      }
+  
+      const posts = await Post.find(filter).populate('author', ['username']);
+      res.json(posts);
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+      res.status(500).json({ message: "Error fetching posts" });
+    }
+  });
+  
+  
 app.get('/api/post/:id', async (req, res) => {
   const {id} = req.params;
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
 })
+
 app.delete('/api/post/:id', async (req, res) => {
     const { id } = req.params;
   
