@@ -1,6 +1,9 @@
 ### Blog Post CRUD Operations
 This project implements REST API endpoints to handle blog post CRUD operations using the MERN stack. The frontend is built with Vite and TailwindCSS, while the backend is implemented with MongoDB, Node.js, and Express. Authentication for user login and signup is also included.
 
+## Note :
+Time taken to complete the task : 24hrs (from first commmit to the final demo video)
+
 ## Demo
 A demo video of the project can be found here...
 
@@ -26,9 +29,11 @@ https://github.com/prabhu4444/Vizmo_Backend_Task/assets/61291869/be2bc4b6-82e8-4
 - Blog Post
 ```
 {
-  "title": "string",
-  "content": "string",
-  "author": "User"
+  "title" : String,
+  "summary" : String,
+  "content" : String,
+  "image" : String,
+  "author" : Schema.Types.ObjectId, ref:'User'
 }
 ```
 - User (Author)
@@ -53,7 +58,7 @@ https://github.com/prabhu4444/Vizmo_Backend_Task/assets/61291869/be2bc4b6-82e8-4
 ##Environment Variables
 The .env file contains the following environment variable:
 ```
-mongoDBURL: URL for connecting to the MongoDB Atlas database.
+MONGODB_URI: Your URL for connecting to the MongoDB Atlas database.
 ```
 ## Installation
 - Clone the repository.
