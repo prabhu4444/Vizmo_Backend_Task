@@ -1,12 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { Navigate,useParams, Link } from "react-router-dom";
 import { format } from "date-fns"; // Changed from formatISO9075 to format for simplicity
 import { UserContext } from "../UserContext";
 
 export default function PostPage() {
   const [postInfo, setPostInfo] = useState(null);
+  const [redirect, setRedirect] = useState(false);
   const { userInfo } = useContext(UserContext);
   const { id } = useParams();
+  //const history = useHistory();
+
 
   useEffect(() => {
     fetch(`/api/post/${id}`)
@@ -24,6 +27,27 @@ export default function PostPage() {
         console.error("Error fetching post:", error);
       });
   }, [id]);
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
+
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(`/api/post/${id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+      if (response.ok) {
+        setRedirect(true);
+        //history.push("/"); // Redirect to home page after successful deletion
+      } else {
+        throw new Error("Failed to delete post.");
+      }
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   if (!postInfo) return null; // Return early if postInfo is null or undefined
 
@@ -61,6 +85,25 @@ export default function PostPage() {
             </svg>
             Edit this post
           </Link>
+          <button
+            onClick={handleDelete}
+            className="inline-flex items-center mx-6 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md focus:outline-none"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-5 h-5 mr-2"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+            Delete this post
+          </button>
         </div>
       )}
 

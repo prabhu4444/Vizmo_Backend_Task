@@ -149,7 +149,27 @@ app.get('/api/post/:id', async (req, res) => {
   const postDoc = await Post.findById(id).populate('author', ['username']);
   res.json(postDoc);
 })
-
+app.delete('/api/post/:id', async (req, res) => {
+    const { id } = req.params;
+  
+    try {
+      const deletedPost = await Post.findByIdAndDelete(id);
+  
+      if (!deletedPost) {
+        return res.status(404).json({ error: "Post not found" });
+      }
+  
+      // Optionally, delete the associated image file from the filesystem
+      const imagePath = `${__dirname}/${deletedPost.image}`;
+      fs.unlinkSync(imagePath);
+  
+      res.json({ message: "Post deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting post:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  });
+  
 
 app.listen(4000, () => {
     console.log('Server is running on http://localhost:4000');
